@@ -13,32 +13,35 @@ const placeForBoxes = document.querySelector("#boxes");
 createButton.addEventListener("click", () => {
   const amount = numberInput.value;
   if (amount < 1 || amount > 100) {
+    console.log('The number must be between 1 and 100');
     return;
   }
 
   createBoxes(amount);
+
+  numberInput.value = '';
 });
 
 function createBoxes(amount) {
   placeForBoxes.innerHTML = "";
   let size = 30;
+  const boxesArray = [];
+
   for (let i = 0; i < amount; i++) {
     const box = document.createElement("div");
     box.style.width = size + "px";
     box.style.height = size + "px";
     size += 10;
     box.style.backgroundColor = getRandomHexColor();
-    box.style.opacity = 0;
-    box.style.transition = 'opacity 1s ease'
-    setTimeout(() => {
-      placeForBoxes.append(box);
-      setTimeout(() => {
-        box.style.opacity = 1;
-      }, 60);
-    }, i * 90);
+    
+    boxesArray[i] = box.outerHTML;
   }
+
+  placeForBoxes.innerHTML = boxesArray.join('');
+
 }
 
 destroyButton.addEventListener("click", () => {
   placeForBoxes.innerHTML = "";
+  numberInput.value = '';
 });
